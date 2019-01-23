@@ -3,6 +3,7 @@ package it.unical.asde.pr78.controller;
 import it.unical.asde.pr78.entity.Role;
 import it.unical.asde.pr78.entity.User;
 import it.unical.asde.pr78.exception.InvalidUserException;
+import it.unical.asde.pr78.service.ExamService;
 import it.unical.asde.pr78.service.RoleService;
 import it.unical.asde.pr78.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -26,6 +28,9 @@ public class UserController extends BaseController {
 
 	@Autowired
 	private RoleService roleService;
+	
+	@Autowired
+	private ExamService examService;
 
 	@GetMapping("/")
 	public String authenticated(HttpServletRequest httpServletRequest) {
@@ -36,6 +41,14 @@ public class UserController extends BaseController {
 		} else {
 			return "redirect:/student";
 		}
+	}
+	/*
+	 * Post request to clear all exam existed.
+	 */
+	@PostMapping("/clear")
+	public String clearExam(HttpServletRequest httpServletRequest) {
+		examService.clearAllExam();
+		return "redirect:/login";
 	}
 
 	@GetMapping("/login")

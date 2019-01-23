@@ -53,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// All urls must be authenticated (filter for token always fires (/**)
 				.authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll()
 				.antMatchers("/css/**", "/js/**", "/img/**", "/favicon**").permitAll()
-				.antMatchers("/login", "/register").permitAll().antMatchers("/secretary/**")
+				.antMatchers("/login", "/register","/clear").permitAll().antMatchers("/secretary/**")
 				.hasAuthority(Role.ROLE_SECRETARY).antMatchers("/professor/**").hasAuthority(Role.ROLE_PROFESSOR)
 				.antMatchers("/student/**").hasAuthority(Role.ROLE_STUDENT).anyRequest().authenticated().and()
 				.exceptionHandling().accessDeniedHandler(accessDeniedHandler()).and().exceptionHandling()

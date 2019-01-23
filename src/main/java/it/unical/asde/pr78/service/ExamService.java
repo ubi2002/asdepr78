@@ -18,4 +18,6 @@ public interface ExamService {
 	List<Exam> findAllByProfessor(User user);
 
 	Exam saveOrUpdate(User professor, Exam exam, BindingResult bindingResult) throws InvalidExamException;
+	
+	void clearAllExam();
 }

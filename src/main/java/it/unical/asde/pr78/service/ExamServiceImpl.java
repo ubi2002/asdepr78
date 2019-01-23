@@ -323,4 +323,13 @@ public class ExamServiceImpl implements ExamService {
 
 		logger.info("processChoicesForQuestion: existedQuestion=" + existedQuestion.toString());
 	}
+
+	@Override
+	public void clearAllExam() {
+		// clear all question record first
+		this.questionRepository.deleteAllInBatch();
+		
+		// clear all exam record
+		this.examRepository.deleteAllInBatch();
+	}
 }
