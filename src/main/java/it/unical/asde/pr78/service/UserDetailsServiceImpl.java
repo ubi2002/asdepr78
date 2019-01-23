@@ -13,36 +13,36 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    private UserRepository userRepository;
+	@Autowired
+	private UserRepository userRepository;
 
-    @Override
-    @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
+	@Override
+	@Transactional(readOnly = true)
+	public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
 
-        User user = this.userRepository.findByEmail(email);
+		User user = this.userRepository.findByEmail(email);
 
-        if (user == null) {
-            throw new UsernameNotFoundException("Invalid email/password.");
-        }
+		if (user == null) {
+			throw new UsernameNotFoundException("Invalid email/password.");
+		}
 
-        if (!user.isActive()) {
-            throw new UsernameNotFoundException("User is not active.");
-        }
+		if (!user.isActive()) {
+			throw new UsernameNotFoundException("User is not active.");
+		}
 
-        List<Role> roles = user.getRoles();
-        int rolesSize = roles.size();
+		List<Role> roles = user.getRoles();
+		int rolesSize = roles.size();
 
-        String[] roleNames = new String[rolesSize];
+		String[] roleNames = new String[rolesSize];
 
-        for (int i = 0; i < rolesSize; i++) {
-            roleNames[i] = roles.get(i).getName();
-        }
+		for (int i = 0; i < rolesSize; i++) {
+			roleNames[i] = roles.get(i).getName();
+		}
 
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), AuthorityUtils.createAuthorityList(roleNames));
-    }
+		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
+				AuthorityUtils.createAuthorityList(roleNames));
+	}
 }

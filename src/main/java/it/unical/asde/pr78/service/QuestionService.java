@@ -6,5 +6,5 @@ import it.unical.asde.pr78.entity.Question;
 import java.util.List;
 
 public interface QuestionService {
-    void mapAnswersToQuestions(List<Question> questions, List<Answer> answers);
+	void mapAnswersToQuestions(List<Question> questions, List<Answer> answers);
 }

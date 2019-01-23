@@ -10,13 +10,13 @@ import java.util.List;
 
 @Repository
 public interface SubmissionRepository extends JpaRepository<Submission, Long> {
-    Submission findByExamAndStudent(Exam exam, User student);
+	Submission findByExamAndStudent(Exam exam, User student);
 
-    List<Submission> findAllByStudent(User student);
+	List<Submission> findAllByStudent(User student);
 
-    List<Submission> findAllByExamAndStatusIn(Exam exam, List<Integer> statuses);
+	List<Submission> findAllByExamAndStatusIn(Exam exam, List<Integer> statuses);
 
-    Submission findByIdAndExamAndStatus(Long id, Exam exam, int status);
+	Submission findByIdAndExamAndStatus(Long id, Exam exam, int status);
 
-    Submission findByIdAndExamAndStatusIn(Long submissionId, Exam exam, List<Integer> statuses);
+	Submission findByIdAndExamAndStatusIn(Long submissionId, Exam exam, List<Integer> statuses);
 }

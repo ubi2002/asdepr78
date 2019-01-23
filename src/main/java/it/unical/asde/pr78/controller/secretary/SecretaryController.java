@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class SecretaryController extends BaseController {
 
-    @GetMapping("/secretary")
-    public String dashboard() {
-        return "secretary/dashboard";
-    }
+	@GetMapping("/secretary")
+	public String dashboard() {
+		return "secretary/dashboard";
+	}
 }

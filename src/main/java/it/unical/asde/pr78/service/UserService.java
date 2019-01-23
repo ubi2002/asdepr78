@@ -4,9 +4,9 @@ import it.unical.asde.pr78.entity.User;
 import it.unical.asde.pr78.exception.InvalidUserException;
 
 public interface UserService {
-    User findByEmail(String email);
+	User findByEmail(String email);
 
-    User createUser(User user);
+	User createUser(User user);
 
-    boolean updateProfile(User existedUser, User user) throws InvalidUserException;
+	boolean updateProfile(User existedUser, User user) throws InvalidUserException;
 }

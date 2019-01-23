@@ -8,6 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
-    User findByEmail(String email);
+	@Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
+	User findByEmail(String email);
 }

@@ -22,87 +22,89 @@ import java.util.logging.Logger;
 @Controller
 public class ProExamController extends BaseController {
 
-    private Logger logger = Logger.getLogger(ProExamController.class.getName());
+	private Logger logger = Logger.getLogger(ProExamController.class.getName());
 
-    @Autowired
-    private ExamService examService;
+	@Autowired
+	private ExamService examService;
 
-    @GetMapping("/professor/exams")
-    public ModelAndView exams() {
-        ModelAndView modelAndView = new ModelAndView("professor/exams");
+	@GetMapping("/professor/exams")
+	public ModelAndView exams() {
+		ModelAndView modelAndView = new ModelAndView("professor/exams");
 
-        List<Exam> exams = this.examService.findAllByProfessor(loggedInUser());
+		List<Exam> exams = this.examService.findAllByProfessor(loggedInUser());
 
-        modelAndView.addObject("exams", exams);
+		modelAndView.addObject("exams", exams);
 
-        if (exams.isEmpty()) {
-            modelAndView.addObject("warning", "You do not have any exam. Create the first one by clicking Create Exam button.");
-        }
+		if (exams.isEmpty()) {
+			modelAndView.addObject("warning",
+					"You do not have any exam. Create the first one by clicking Create Exam button.");
+		}
 
-        return modelAndView;
-    }
+		return modelAndView;
+	}
 
-    @GetMapping("/professor/exams/create")
-    public ModelAndView create() {
-        ModelAndView modelAndView = new ModelAndView("professor/exam");
+	@GetMapping("/professor/exams/create")
+	public ModelAndView create() {
+		ModelAndView modelAndView = new ModelAndView("professor/exam");
 
-        modelAndView.addObject("exam", new Exam());
-        modelAndView.addObject("questionTypes", Question.getTypes());
+		modelAndView.addObject("exam", new Exam());
+		modelAndView.addObject("questionTypes", Question.getTypes());
 
-        return modelAndView;
-    }
+		return modelAndView;
+	}
 
-    @PostMapping("/professor/exams/create")
-    public ModelAndView save(@Valid @ModelAttribute("exam") Exam exam, BindingResult bindingResult,
-                             RedirectAttributes redirectAttributes) {
-        logger.info(exam.toString());
+	@PostMapping("/professor/exams/create")
+	public ModelAndView save(@Valid @ModelAttribute("exam") Exam exam, BindingResult bindingResult,
+			RedirectAttributes redirectAttributes) {
+		logger.info(exam.toString());
 
-        ModelAndView modelAndView = new ModelAndView();
+		ModelAndView modelAndView = new ModelAndView();
 
-        try {
-            boolean isNew = exam.getId() == null;
+		try {
+			boolean isNew = exam.getId() == null;
 
-            Exam savedExam = this.examService.saveOrUpdate(loggedInUser(), exam, bindingResult);
+			Exam savedExam = this.examService.saveOrUpdate(loggedInUser(), exam, bindingResult);
 
-            String message;
+			String message;
 
-            if (isNew) {
-                modelAndView.setViewName("redirect:/professor/exams/create");
+			if (isNew) {
+				modelAndView.setViewName("redirect:/professor/exams/create");
 
-                message = String.format("The exam '%s' has been created successfully.", savedExam.getTitle());
-            } else {
-                modelAndView.setViewName("redirect:/professor/exams/view/" + exam.getId());
+				message = String.format("The exam '%s' has been created successfully.", savedExam.getTitle());
+			} else {
+				modelAndView.setViewName("redirect:/professor/exams/view/" + exam.getId());
 
-                message = String.format("The exam '%s' has been updated successfully.", savedExam.getTitle());
-            }
+				message = String.format("The exam '%s' has been updated successfully.", savedExam.getTitle());
+			}
 
-            redirectAttributes.addFlashAttribute("success", message);
-        } catch (InvalidExamException e) {
-            modelAndView.addObject("hasErrors", bindingResult.hasErrors());
+			redirectAttributes.addFlashAttribute("success", message);
+		} catch (InvalidExamException e) {
+			modelAndView.addObject("hasErrors", bindingResult.hasErrors());
 
-            modelAndView.setViewName("professor/exam");
+			modelAndView.setViewName("professor/exam");
 
-            modelAndView.addObject("warning", e.getMessage());
-            modelAndView.addObject("exam", exam);
-            modelAndView.addObject("questionTypes", Question.getTypes());
-        }
+			modelAndView.addObject("warning", e.getMessage());
+			modelAndView.addObject("exam", exam);
+			modelAndView.addObject("questionTypes", Question.getTypes());
+		}
 
-        return modelAndView;
-    }
+		return modelAndView;
+	}
 
-    @GetMapping("/professor/exams/view/{examId}")
-    public ModelAndView view(@PathVariable("examId") Long examId) {
-        ModelAndView modelAndView = new ModelAndView("professor/exam");
+	@GetMapping("/professor/exams/view/{examId}")
+	public ModelAndView view(@PathVariable("examId") Long examId) {
+		ModelAndView modelAndView = new ModelAndView("professor/exam");
 
-        Exam exam = this.examService.findByIdAndProfessor(examId, loggedInUser());
+		Exam exam = this.examService.findByIdAndProfessor(examId, loggedInUser());
 
-        modelAndView.addObject("exam", exam);
-        modelAndView.addObject("questionTypes", Question.getTypes());
+		modelAndView.addObject("exam", exam);
+		modelAndView.addObject("questionTypes", Question.getTypes());
 
-        if (exam == null) {
-            modelAndView.addObject("warning", "The exam is not valid or not available. Create the first one by clicking Create Exam button.");
-        }
+		if (exam == null) {
+			modelAndView.addObject("warning",
+					"The exam is not valid or not available. Create the first one by clicking Create Exam button.");
+		}
 
-        return modelAndView;
-    }
+		return modelAndView;
+	}
 }

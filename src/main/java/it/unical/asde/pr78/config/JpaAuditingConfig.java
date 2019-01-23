@@ -1,6 +1,5 @@
 package it.unical.asde.pr78.config;
 
-
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -11,10 +10,10 @@ import java.util.Optional;
 @EnableJpaAuditing
 public class JpaAuditingConfig {
 
-    class AuditorAwareImpl implements AuditorAware {
-        @Override
-        public Optional getCurrentAuditor() {
-            return Optional.empty();
-        }
-    }
+	class AuditorAwareImpl implements AuditorAware {
+		@Override
+		public Optional getCurrentAuditor() {
+			return Optional.empty();
+		}
+	}
 }

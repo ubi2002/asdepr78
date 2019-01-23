@@ -9,39 +9,34 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(
-        name = "roles"
-)
+@Table(name = "roles")
 @EntityListeners(AuditingEntityListener.class)
 public final class Role extends BaseEntity {
 
-    public static final String ROLE_SECRETARY = "ROLE_SECRETARY";
-    public static final String ROLE_PROFESSOR = "ROLE_PROFESSOR";
-    public static final String ROLE_STUDENT = "ROLE_STUDENT";
+	public static final String ROLE_SECRETARY = "ROLE_SECRETARY";
+	public static final String ROLE_PROFESSOR = "ROLE_PROFESSOR";
+	public static final String ROLE_STUDENT = "ROLE_STUDENT";
 
-    @Column(name = "`desc`")
-    private String desc;
+	@Column(name = "`desc`")
+	private String desc;
 
-    @Column(
-            name = "`name`",
-            nullable = false
-    )
-    @NotNull
-    private String name;
+	@Column(name = "`name`", nullable = false)
+	@NotNull
+	private String name;
 
-    public String getDesc() {
-        return desc;
-    }
+	public String getDesc() {
+		return desc;
+	}
 
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 }

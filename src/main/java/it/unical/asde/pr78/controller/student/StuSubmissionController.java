@@ -13,22 +13,22 @@ import java.util.List;
 @Controller
 public class StuSubmissionController extends BaseController {
 
-    @Autowired
-    private SubmissionService submissionService;
+	@Autowired
+	private SubmissionService submissionService;
 
-    @GetMapping("/student/submissions")
-    public ModelAndView submissions() {
+	@GetMapping("/student/submissions")
+	public ModelAndView submissions() {
 
-        ModelAndView modelAndView = new ModelAndView("student/submissions");
+		ModelAndView modelAndView = new ModelAndView("student/submissions");
 
-        List<Submission> submissions = this.submissionService.findAllByStudent(loggedInUser());
+		List<Submission> submissions = this.submissionService.findAllByStudent(loggedInUser());
 
-        modelAndView.addObject("submissions", submissions);
+		modelAndView.addObject("submissions", submissions);
 
-        if (submissions.isEmpty()) {
-            modelAndView.addObject("warning", "You do not have any submission");
-        }
+		if (submissions.isEmpty()) {
+			modelAndView.addObject("warning", "You do not have any submission");
+		}
 
-        return modelAndView;
-    }
+		return modelAndView;
+	}
 }

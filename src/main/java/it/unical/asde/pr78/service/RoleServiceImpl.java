@@ -9,16 +9,16 @@ import java.util.List;
 
 @Service
 public class RoleServiceImpl implements RoleService {
-    @Autowired
-    RoleRepository roleRepository;
+	@Autowired
+	RoleRepository roleRepository;
 
-    @Override
-    public Role findById(Long id) {
-        return this.roleRepository.findById(id).get();
-    }
+	@Override
+	public Role findById(Long id) {
+		return this.roleRepository.findById(id).get();
+	}
 
-    @Override
-    public List<Role> findAll() {
-        return roleRepository.findAll();
-    }
+	@Override
+	public List<Role> findAll() {
+		return roleRepository.findAll();
+	}
 }

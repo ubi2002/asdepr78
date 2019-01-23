@@ -5,7 +5,7 @@ import it.unical.asde.pr78.entity.Role;
 import java.util.List;
 
 public interface RoleService {
-    Role findById(Long id);
+	Role findById(Long id);
 
-    List<Role> findAll();
+	List<Role> findAll();
 }

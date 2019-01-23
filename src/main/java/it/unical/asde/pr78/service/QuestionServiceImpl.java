@@ -13,18 +13,16 @@ import java.util.logging.Logger;
 @Service
 public class QuestionServiceImpl implements QuestionService {
 
-    private Logger logger = Logger.getLogger(QuestionServiceImpl.class.getName());
+	private Logger logger = Logger.getLogger(QuestionServiceImpl.class.getName());
 
-    @Autowired
-    private QuestionRepository questionRepository;
+	@Autowired
+	private QuestionRepository questionRepository;
 
-    @Override
-    public void mapAnswersToQuestions(List<Question> questions, List<Answer> answers) {
-        questions.forEach(question -> {
-            Answer[] subAnswers = answers.stream()
-                    .filter(a -> a.getQuestion().equals(question))
-                    .toArray(Answer[]::new);
-            question.setAnswers(Arrays.asList(subAnswers));
-        });
-    }
+	@Override
+	public void mapAnswersToQuestions(List<Question> questions, List<Answer> answers) {
+		questions.forEach(question -> {
+			Answer[] subAnswers = answers.stream().filter(a -> a.getQuestion().equals(question)).toArray(Answer[]::new);
+			question.setAnswers(Arrays.asList(subAnswers));
+		});
+	}
 }

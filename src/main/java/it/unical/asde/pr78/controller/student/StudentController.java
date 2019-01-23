@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class StudentController extends BaseController {
 
-    @GetMapping("/student")
-    public String dashboard() {
-        return "student/dashboard";
-    }
+	@GetMapping("/student")
+	public String dashboard() {
+		return "student/dashboard";
+	}
 }

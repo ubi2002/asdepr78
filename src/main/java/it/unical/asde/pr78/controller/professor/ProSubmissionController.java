@@ -19,59 +19,57 @@ import java.util.logging.Logger;
 @Controller
 public class ProSubmissionController extends BaseController {
 
-    private Logger logger = Logger.getLogger(ProSubmissionController.class.getName());
+	private Logger logger = Logger.getLogger(ProSubmissionController.class.getName());
 
-    @Autowired
-    private ExamService examService;
+	@Autowired
+	private ExamService examService;
 
-    @Autowired
-    private SubmissionService submissionService;
+	@Autowired
+	private SubmissionService submissionService;
 
-    @Autowired
-    private ReviewSubmissionService reviewSubmissionService;
+	@Autowired
+	private ReviewSubmissionService reviewSubmissionService;
 
-    @GetMapping("/professor/submissions/{examId}")
-    public ModelAndView submissions(@PathVariable("examId") Long examId) {
-        ModelAndView modelAndView = new ModelAndView("professor/submissions");
+	@GetMapping("/professor/submissions/{examId}")
+	public ModelAndView submissions(@PathVariable("examId") Long examId) {
+		ModelAndView modelAndView = new ModelAndView("professor/submissions");
 
-        try {
-            Exam exam = this.examService.findByIdAndProfessor(examId, loggedInUser());
-            List<Submission> submissions = this.submissionService.findAllByExam(exam);
+		try {
+			Exam exam = this.examService.findByIdAndProfessor(examId, loggedInUser());
+			List<Submission> submissions = this.submissionService.findAllByExam(exam);
 
-            modelAndView.addObject("exam", exam);
-            modelAndView.addObject("submissions", submissions);
+			modelAndView.addObject("exam", exam);
+			modelAndView.addObject("submissions", submissions);
 
-            if (submissions.isEmpty()) {
-                modelAndView.addObject("warning", "There is no submission for this exam");
-            }
-        } catch (InvalidExamException e) {
-            logger.warning(e.getMessage());
+			if (submissions.isEmpty()) {
+				modelAndView.addObject("warning", "There is no submission for this exam");
+			}
+		} catch (InvalidExamException e) {
+			logger.warning(e.getMessage());
 
-            modelAndView.addObject("warning", e.getMessage());
-        }
+			modelAndView.addObject("warning", e.getMessage());
+		}
 
-        return modelAndView;
-    }
+		return modelAndView;
+	}
 
-    @GetMapping("/professor/submissions/review/{examId}/{submissionId}")
-    public ModelAndView review(@PathVariable("examId") Long examId,
-                               @PathVariable("submissionId") Long submissionId) {
+	@GetMapping("/professor/submissions/review/{examId}/{submissionId}")
+	public ModelAndView review(@PathVariable("examId") Long examId, @PathVariable("submissionId") Long submissionId) {
 
-        ModelAndView modelAndView = this.reviewSubmissionService.review(loggedInUser(), examId, submissionId);
+		ModelAndView modelAndView = this.reviewSubmissionService.review(loggedInUser(), examId, submissionId);
 
-        modelAndView.setViewName("professor/submission");
+		modelAndView.setViewName("professor/submission");
 
-        return modelAndView;
-    }
+		return modelAndView;
+	}
 
-    @GetMapping("/professor/submissions/view/{examId}/{submissionId}")
-    public ModelAndView view(@PathVariable("examId") Long examId,
-                                   @PathVariable("submissionId") Long submissionId) {
+	@GetMapping("/professor/submissions/view/{examId}/{submissionId}")
+	public ModelAndView view(@PathVariable("examId") Long examId, @PathVariable("submissionId") Long submissionId) {
 
-        ModelAndView modelAndView = this.reviewSubmissionService.view(loggedInUser(), examId, submissionId);
+		ModelAndView modelAndView = this.reviewSubmissionService.view(loggedInUser(), examId, submissionId);
 
-        modelAndView.setViewName("professor/submission");
+		modelAndView.setViewName("professor/submission");
 
-        return modelAndView;
-    }
+		return modelAndView;
+	}
 }

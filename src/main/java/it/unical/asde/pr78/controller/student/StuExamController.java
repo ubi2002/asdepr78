@@ -27,81 +27,82 @@ import java.util.logging.Logger;
 @Controller
 public class StuExamController extends BaseController {
 
-    private Logger logger = Logger.getLogger(StuExamController.class.getName());
+	private Logger logger = Logger.getLogger(StuExamController.class.getName());
 
-    @Autowired
-    private ExamService examService;
+	@Autowired
+	private ExamService examService;
 
-    @Autowired
-    private SubmissionService submissionService;
+	@Autowired
+	private SubmissionService submissionService;
 
-    @Autowired
-    private AnswerService answerService;
+	@Autowired
+	private AnswerService answerService;
 
-    @GetMapping("/student/exams")
-    public ModelAndView exams(@ModelAttribute("success") String success) {
-        ModelAndView modelAndView = new ModelAndView("student/exams");
+	@GetMapping("/student/exams")
+	public ModelAndView exams(@ModelAttribute("success") String success) {
+		ModelAndView modelAndView = new ModelAndView("student/exams");
 
-        List<Submission> submissions = this.submissionService.findAllByStudent(loggedInUser());
-        List<Exam> exams = this.examService.findAllAvailableForStudent(submissions);
+		List<Submission> submissions = this.submissionService.findAllByStudent(loggedInUser());
+		List<Exam> exams = this.examService.findAllAvailableForStudent(submissions);
 
-        if (exams.isEmpty() && StringUtils.isBlank(success)) {
-            String message = "There is no opening exam now. Please wait for the news from your professors.";
-            modelAndView.addObject("warning", message);
-        } else {
-            modelAndView.addObject("success", success);
-        }
+		if (exams.isEmpty() && StringUtils.isBlank(success)) {
+			String message = "There is no opening exam now. Please wait for the news from your professors.";
+			modelAndView.addObject("warning", message);
+		} else {
+			modelAndView.addObject("success", success);
+		}
 
-        modelAndView.addObject("exams", exams);
+		modelAndView.addObject("exams", exams);
 
-        return modelAndView;
-    }
+		return modelAndView;
+	}
 
-    @GetMapping("/student/exams/start/{id}")
-    public ModelAndView start(@PathVariable("id") Long id) {
-        ModelAndView modelAndView = new ModelAndView("student/exam");
+	@GetMapping("/student/exams/start/{id}")
+	public ModelAndView start(@PathVariable("id") Long id) {
+		ModelAndView modelAndView = new ModelAndView("student/exam");
 
-        try {
-            Submission submission = this.submissionService.createOrContinue(loggedInUser(), id);
+		try {
+			Submission submission = this.submissionService.createOrContinue(loggedInUser(), id);
 
-            modelAndView.addObject("exam", submission.getExam());
-            modelAndView.addObject("duration", submission.getRemainingTime());
-            modelAndView.addObject("answerForm", new AnswerForm());
-        } catch (InvalidExamException e) {
-            logger.warning(e.getMessage());
+			modelAndView.addObject("exam", submission.getExam());
+			modelAndView.addObject("duration", submission.getRemainingTime());
+			modelAndView.addObject("answerForm", new AnswerForm());
+		} catch (InvalidExamException e) {
+			logger.warning(e.getMessage());
 
-            modelAndView.addObject("warning", e.getMessage());
-        }
+			modelAndView.addObject("warning", e.getMessage());
+		}
 
-        return modelAndView;
-    }
+		return modelAndView;
+	}
 
-    @PostMapping("/student/exams/submit/{id}")
-    public ModelAndView submit(@ModelAttribute("answerForm") AnswerForm answerForm,
-                               @PathVariable("id") Long id,
-                               RedirectAttributes redirectAttributes) {
-        logger.info(answerForm.toString());
+	@PostMapping("/student/exams/submit/{id}")
+	public ModelAndView submit(@ModelAttribute("answerForm") AnswerForm answerForm, @PathVariable("id") Long id,
+			RedirectAttributes redirectAttributes) {
+		logger.info(answerForm.toString());
 
-        try {
-            User student = loggedInUser();
-            Submission submission = this.submissionService.getValidSubmission(student, id);
-            List<Answer> anwers = this.answerService.submitAnswers(student, answerForm.getAnswers(), submission);
+		try {
+			User student = loggedInUser();
+			Submission submission = this.submissionService.getValidSubmission(student, id);
+			List<Answer> anwers = this.answerService.submitAnswers(student, answerForm.getAnswers(), submission);
 
-            String message = String.format("Congratulation!!! You have completed the exam '%s'. The score will be informed later.", submission.getExam().getTitle());
+			String message = String.format(
+					"Congratulation!!! You have completed the exam '%s'. The score will be informed later.",
+					submission.getExam().getTitle());
 
-            redirectAttributes.addFlashAttribute("success", message);
+			redirectAttributes.addFlashAttribute("success", message);
 
-            return new ModelAndView("redirect:/student/exams");
-        } catch (InvalidAnswerException e) {
-            logger.warning(e.getMessage());
+			return new ModelAndView("redirect:/student/exams");
+		} catch (InvalidAnswerException e) {
+			logger.warning(e.getMessage());
 
-            ModelAndView modelAndView = new ModelAndView("student/exam");
+			ModelAndView modelAndView = new ModelAndView("student/exam");
 
-            modelAndView.addObject("warning", e.getMessage());
-            modelAndView.addObject("exam", this.examService.findById(id));
-            modelAndView.addObject("answerForm", answerForm);
+			modelAndView.addObject("warning", e.getMessage());
+			modelAndView.addObject("exam", this.examService.findById(id));
+			modelAndView.addObject("answerForm", answerForm);
 
-            return modelAndView;
-        }
-    }
+			return modelAndView;
+		}
+	}
 }

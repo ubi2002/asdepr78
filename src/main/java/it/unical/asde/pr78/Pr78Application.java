@@ -10,12 +10,12 @@ import org.springframework.session.jdbc.config.annotation.web.http.EnableJdbcHtt
 @EnableJdbcHttpSession
 public class Pr78Application extends SpringBootServletInitializer {
 
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(Pr78Application.class);
-    }
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(Pr78Application.class);
+	}
 
-    public static void main(String[] args) {
-        SpringApplication.run(Pr78Application.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(Pr78Application.class, args);
+	}
 }

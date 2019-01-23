@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 public interface AnswerService {
-    List<Answer> findAllByQuestions(List<Question> questions);
+	List<Answer> findAllByQuestions(List<Question> questions);
 
-    List<Answer> submitAnswers(User student, Map<Long, String[]> answers, Submission submission)
-            throws InvalidAnswerException;
+	List<Answer> submitAnswers(User student, Map<Long, String[]> answers, Submission submission)
+			throws InvalidAnswerException;
 
-    Question updateCorrectness(Exam exam, Submission submission, Long questionId, boolean isCorrect)
-            throws InvalidAnswerException;
+	Question updateCorrectness(Exam exam, Submission submission, Long questionId, boolean isCorrect)
+			throws InvalidAnswerException;
 }

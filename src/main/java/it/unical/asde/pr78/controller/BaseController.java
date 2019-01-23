@@ -8,16 +8,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 public abstract class BaseController {
 
-    @Autowired
-    protected UserService userService;
+	@Autowired
+	protected UserService userService;
 
-    protected final User loggedInUser() {
-        String username = this.getAuthentication().getName();
+	protected final User loggedInUser() {
+		String username = this.getAuthentication().getName();
 
-        return userService.findByEmail(username);
-    }
+		return userService.findByEmail(username);
+	}
 
-    private Authentication getAuthentication() {
-        return SecurityContextHolder.getContext().getAuthentication();
-    }
+	private Authentication getAuthentication() {
+		return SecurityContextHolder.getContext().getAuthentication();
+	}
 }

@@ -9,13 +9,13 @@ import org.springframework.validation.BindingResult;
 import java.util.List;
 
 public interface ExamService {
-    Exam findById(Long id);
+	Exam findById(Long id);
 
-    Exam findByIdAndProfessor(Long id, User user) throws InvalidExamException;
+	Exam findByIdAndProfessor(Long id, User user) throws InvalidExamException;
 
-    List<Exam> findAllAvailableForStudent(List<Submission> submissions);
+	List<Exam> findAllAvailableForStudent(List<Submission> submissions);
 
-    List<Exam> findAllByProfessor(User user);
+	List<Exam> findAllByProfessor(User user);
 
-    Exam saveOrUpdate(User professor, Exam exam, BindingResult bindingResult) throws InvalidExamException;
+	Exam saveOrUpdate(User professor, Exam exam, BindingResult bindingResult) throws InvalidExamException;
 }

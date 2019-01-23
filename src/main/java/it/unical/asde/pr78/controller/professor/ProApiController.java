@@ -12,30 +12,28 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ProApiController extends BaseController {
 
-    @Autowired
-    private UpdateAnswerCorrectnessService updateAnswerCorrectnessService;
+	@Autowired
+	private UpdateAnswerCorrectnessService updateAnswerCorrectnessService;
 
-    @Autowired
-    private ReviewSubmissionService reviewSubmissionService;
+	@Autowired
+	private ReviewSubmissionService reviewSubmissionService;
 
-    @PostMapping("/professor/apis/submissionAsReviewed/{examId}/{submissionId}")
-    public ApiResponseForm submissionAsReviewed(@PathVariable("examId") Long examId,
-                                                @PathVariable("submissionId") Long submissionId) {
+	@PostMapping("/professor/apis/submissionAsReviewed/{examId}/{submissionId}")
+	public ApiResponseForm submissionAsReviewed(@PathVariable("examId") Long examId,
+			@PathVariable("submissionId") Long submissionId) {
 
-        return this.reviewSubmissionService.markAsReviewed(loggedInUser(), examId, submissionId);
-    }
+		return this.reviewSubmissionService.markAsReviewed(loggedInUser(), examId, submissionId);
+	}
 
-    @PostMapping("/professor/apis/answerAsCorrect/{examId}/{submissionId}/{questionId}")
-    public ApiResponseForm answerAsCorrect(@PathVariable("examId") Long examId,
-                                           @PathVariable("submissionId") Long submissionId,
-                                           @PathVariable("questionId") Long questionId) {
-        return this.updateAnswerCorrectnessService.execute(loggedInUser(), examId, submissionId, questionId, true);
-    }
+	@PostMapping("/professor/apis/answerAsCorrect/{examId}/{submissionId}/{questionId}")
+	public ApiResponseForm answerAsCorrect(@PathVariable("examId") Long examId,
+			@PathVariable("submissionId") Long submissionId, @PathVariable("questionId") Long questionId) {
+		return this.updateAnswerCorrectnessService.execute(loggedInUser(), examId, submissionId, questionId, true);
+	}
 
-    @PostMapping("/professor/apis/answerAsIncorrect/{examId}/{submissionId}/{questionId}")
-    public ApiResponseForm answerAsIncorrect(@PathVariable("examId") Long examId,
-                                             @PathVariable("submissionId") Long submissionId,
-                                             @PathVariable("questionId") Long questionId) {
-        return this.updateAnswerCorrectnessService.execute(loggedInUser(), examId, submissionId, questionId, false);
-    }
+	@PostMapping("/professor/apis/answerAsIncorrect/{examId}/{submissionId}/{questionId}")
+	public ApiResponseForm answerAsIncorrect(@PathVariable("examId") Long examId,
+			@PathVariable("submissionId") Long submissionId, @PathVariable("questionId") Long questionId) {
+		return this.updateAnswerCorrectnessService.execute(loggedInUser(), examId, submissionId, questionId, false);
+	}
 }
